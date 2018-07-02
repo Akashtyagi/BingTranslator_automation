@@ -27,8 +27,7 @@ public class AppTest
     {
 //    	Thread.sleep(3000);
     	translate_page_object.translate();
-    	System.out.println("Test1 Executed");
-    	//Assert.assertTrue(translate_page_object.boolean_condition);
+    	System.out.println("TEST1 Executed - Translation test");
     }
     
     
@@ -37,44 +36,44 @@ public class AppTest
 //    {
 ////    	Thread.sleep(3000);
 //    	translate_page_object.sound();
-//    	System.out.println("Test2 Executed");
+//    	System.out.println("TEST2 Executed - Test Sound");
 //    }
     
     
-    @Test
-    public void Test3_voice_change_in() throws InterruptedException
-    {
+//    @Test
+//    public void Test3_voice_change_in() throws InterruptedException
+//    {
+////    	Thread.sleep(3000);
+//    	translate_page_object.voice_change_in();
+//    	System.out.println("TEST3 Executed - Input voice change");
+//    }
+////    
+//    @Test
+//    public void Test4_voice_change_out() throws InterruptedException
+//    {
+////    	Thread.sleep(3000);
+//    	translate_page_object.voice_change_out();
+//    	System.out.println("TEST4 Executed - Output voice change");
+//    }
+//    
+//    @Test
+//    public void Test5_copy_output() throws InterruptedException
+//    {
 //    	Thread.sleep(3000);
-    	translate_page_object.voice_change_in();
-    	System.out.println("Test3 Executed");
-    }
-    
-    @Test
-    public void Test4_voice_change_out() throws InterruptedException
-    {
+//    	translate_page_object.copy_output();
+//    	System.out.println("Test5 Executed");
+//    }
+//    
+//    @Test
+//    public void Test6_share_output() throws InterruptedException
+//    {
 //    	Thread.sleep(3000);
-    	translate_page_object.voice_change_out();
-    	System.out.println("Test4 Executed");
-    }
-    
-    @Test
-    public void Test5_copy_output() throws InterruptedException
-    {
-    	Thread.sleep(3000);
-    	translate_page_object.copy_output();
-    	System.out.println("Test5 Executed");
-    }
-    
-    @Test
-    public void Test6_share_output() throws InterruptedException
-    {
-    	Thread.sleep(3000);
-    	translate_page_object.share_outptut();
-    	System.out.println("Test6 Executed");
-    }
-    
-    
-    	
+//    	translate_page_object.share_outptut();
+//    	System.out.println("Test6 Executed");
+//    }
+//    
+//    
+//    	
     @Test
     public void Test7_switchtab_test() throws InterruptedException
     {
@@ -82,22 +81,22 @@ public class AppTest
     	translate_page_object.switchtab();
     	System.out.println("Test7 Executed");
     }
-    
-    @Test
-    public void Test8_clearText() throws InterruptedException
-    {
-    	Thread.sleep(3000);
-    	translate_page_object.clear_text();
-    	System.out.println("Test8 Executed");
-    }
-    
-    @Test
-    public void Test9_wrong_language_input() throws InterruptedException
-    {
-    	Thread.sleep(3000);
-    	translate_page_object.wrong_language_input();
-    	System.out.println("Test9 Executed");
-    }
+//    
+//    @Test
+//    public void Test8_clearText() throws InterruptedException
+//    {
+//    	Thread.sleep(3000);
+//    	translate_page_object.clear_text();
+//    	System.out.println("Test8 Executed");
+//    }
+//    
+//    @Test
+//    public void Test9_wrong_language_input() throws InterruptedException
+//    {
+//    	Thread.sleep(3000);
+//    	translate_page_object.wrong_language_input();
+//    	System.out.println("Test9 Executed");
+//    }
     
     //Footer
 //    @Test

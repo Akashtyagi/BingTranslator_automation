@@ -6,15 +6,23 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.testng.Assert;
 import org.w3c.dom.xpath.XPathResult;
+
+import com.gargoylesoftware.htmlunit.javascript.host.dom.Document;
 
 public class Translate_page 
 {
 	WebDriver driver;
 	JavascriptExecutor js;
 	WebElement webelement;
+	String pronunciation_language;
 	String ExpectedUrl;
+	String inputtext;
+	String OutputText;
+	String inputlanguage;
+	String outputlanguage;
 	Boolean boolean_condition;
 	WebElement textarea;
 	WebElement switchtab;
@@ -29,7 +37,6 @@ public class Translate_page
 	public Translate_page(WebDriver driver)
 	{
 		this.driver = driver;
-
 		js = (JavascriptExecutor)driver;
 	}
 	
@@ -44,6 +51,10 @@ public class Translate_page
 	{
 //		Thread.sleep(3000);
 		js.executeScript("document.querySelector('#t_sl').value= 'en'");
+		inputlanguage = js.executeScript("return document.querySelector('#t_sl').value").toString();
+		Assert.assertEquals(inputlanguage, "en");
+		System.out.println("	Input language selected - 'English '");
+		
 	}
 	
 	
@@ -51,6 +62,9 @@ public class Translate_page
 	{
 //		Thread.sleep(3000);
 		js.executeScript("document.querySelector('#t_tl').value= 'fr'");
+		outputlanguage = js.executeScript("return document.querySelector('#t_tl').value").toString();
+		Assert.assertEquals(outputlanguage, "fr");
+		System.out.println("	Output language selected - 'French '");
 	}
 	
 	
@@ -59,23 +73,39 @@ public class Translate_page
 		select_input_language();		// Input text language.
 		select_output_language();		// Output text language.
 		textarea = driver.findElement(By.xpath("(//textarea)[1]"));
-		js.executeScript("arguments[0].value = 'Hello Akash'", textarea);	
+		js.executeScript("arguments[0].value = 'Hello Human'", textarea);	
 		
-//		suggestion = driver.findElement(By.xpath("  //*[@id='t_asc']"));
-//		boolean_condition = suggestion.isDisplayed();
-//		System.out.println("suugestion "+boolean_condition);// Input Text
-		//boolean_condition = driver.findElement(By.xpath("//textarea[@placeholder='Enter text or webpage URL here']"))boolean_condition;
-		//System.out.println("Hello 1"+boolean_condition);
-		//Thread.sleep(1000);
+		Thread.sleep(5000);
+		
+		inputtext = js.executeScript("return document.getElementById('t_sv').value").toString();
+		Assert.assertEquals(inputtext, "Hello Human");			// Input Text Assert
+		OutputText = js.executeScript("return document.getElementById('t_tv').value").toString();
+		Assert.assertEquals(OutputText, "Bonjour l'homme");		// Output Text Assert
+		
+		System.out.println("	Hello Human(English) translated to 'Bonjour l'homme'(French)");
 	}
 	
 	public void voice_change_in() throws InterruptedException
 	{
+		Thread.sleep(1000);
 		webelement = driver.findElement(By.xpath("//*[@id='t_inauoption']"));
 		js.executeScript("arguments[0].click();", webelement);
 		webelement = driver.findElement(By.xpath("//*[@id='t_genradio_M_0']"));
 		js.executeScript("arguments[0].checked = true",webelement);							// Change radio button to Male
 		js.executeScript("document.querySelector('select#t_dropsel_0').value='en-CA'");		// Change pronunciation lang
+		
+		
+											//Assert
+		
+		//Gender is changed
+		boolean_condition = driver.findElement(By.xpath("//*[@id='t_genradio_M_0']")).isEnabled();
+		Assert.assertTrue(boolean_condition, " The gender of the Input voice is changed to 'Male'");
+		System.out.println("	The gender of the Input voice is changed to 'Male");
+		
+		//Pronunciation is changed
+		pronunciation_language = js.executeScript("return document.querySelector('select#t_dropsel_0').value='en-CA'").toString();
+		Assert.assertEquals(pronunciation_language, "en-CA");
+		System.out.println("	Input pronunciation_language is changed to English Canada ");
 	}
 	
 	public void voice_change_out() throws InterruptedException
@@ -85,6 +115,13 @@ public class Translate_page
 		webelement = driver.findElement(By.xpath("//*[@id='t_genradio_M_0']"));		
 		js.executeScript("arguments[0].checked = true",webelement);							// Change radio button to Male
 		js.executeScript("document.querySelector('select#t_dropsel_1').value='fr-CA'");		// Change pronunciation lang
+		
+//		//Assert
+
+		//Pronunciation is changed
+		pronunciation_language = js.executeScript("return document.querySelector('select#t_dropsel_1').value='fr-CA'").toString();
+		Assert.assertEquals(pronunciation_language, "fr-CA");
+		System.out.println("	Input pronunciation_language is changed to French Canada ");
 	}
 	
 	
@@ -94,16 +131,18 @@ public class Translate_page
 	{
 		switchtab = driver.findElement(By.xpath("//*[@id='t_revIcon']"));
 		js.executeScript("arguments[0].click();", switchtab);
-		//Assert.assertTrue(condition);
+		
+		//Assert.assertTrue(js.executeScript("return document.querySelector('#t_tl').value").equals("fr"));
 	}
 	
 	public void sound() throws InterruptedException		// ERROR - click not working
 	{
-		webelement = driver.findElement(By.xpath("//*[@id='t_srcplaycIcon']"));
-		System.out.println(webelement);
-		js.executeScript("arguments[0].click();", webelement);
-		//boolean_condition = driver.findElement(By.xpath("//textarea[@placeholder='Enter text or webpage URL here']")).isDisplayed();
-		//System.out.println("Hello "+boolean_condition);
+		Thread.sleep(1000);
+		RemoteWebElement sound_element = (RemoteWebElement) js.executeScript("return document.querySelector('#t_tarplaycIcon')");
+		sound_element.click();
+		Thread.sleep(500);
+		RemoteWebElement soundclick_element = (RemoteWebElement) js.executeScript("return document.querySelector('#t_tarplaycIcon.audio.audiofocus')");
+		Assert.assertTrue(soundclick_element.isDisplayed());
 	}
 	
 	public void copy_output() throws InterruptedException

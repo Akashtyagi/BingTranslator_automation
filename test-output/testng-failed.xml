@@ -5,11 +5,6 @@
     <classes>
       <class name="com.qa.akash.Bing_JavaScript.AppTest">
         <methods>
-          <include name="Test6_share_output"/>
-          <include name="Test9_wrong_language_input"/>
-          <include name="Test4_voice_change_out"/>
-          <include name="Test8_clearText"/>
-          <include name="Test3_voice_change_in"/>
           <include name="Test7_switchtab_test"/>
         </methods>
       </class> <!-- com.qa.akash.Bing_JavaScript.AppTest -->
