@@ -5,7 +5,7 @@
     <classes>
       <class name="com.qa.akash.Bing_JavaScript.AppTest">
         <methods>
-          <include name="Test7_switchtab_test"/>
+          <include name="Test01_translate_test"/>
         </methods>
       </class> <!-- com.qa.akash.Bing_JavaScript.AppTest -->
     </classes>

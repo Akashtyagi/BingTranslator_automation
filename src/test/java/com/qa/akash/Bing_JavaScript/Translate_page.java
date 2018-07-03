@@ -23,7 +23,9 @@ public class Translate_page
 	String OutputText;
 	String inputlanguage;
 	String outputlanguage;
+	String copytext;
 	Boolean boolean_condition;
+	WebElement sharebutton;
 	WebElement textarea;
 	WebElement switchtab;
 	WebElement cleartext;
@@ -49,18 +51,15 @@ public class Translate_page
 	
 	public void select_input_language() throws InterruptedException		// Assert error
 	{
-//		Thread.sleep(3000);
 		js.executeScript("document.querySelector('#t_sl').value= 'en'");
 		inputlanguage = js.executeScript("return document.querySelector('#t_sl').value").toString();
 		Assert.assertEquals(inputlanguage, "en");
 		System.out.println("	Input language selected - 'English '");
-		
 	}
 	
 	
 	public void select_output_language() throws InterruptedException		// Assert error
 	{
-//		Thread.sleep(3000);
 		js.executeScript("document.querySelector('#t_tl').value= 'fr'");
 		outputlanguage = js.executeScript("return document.querySelector('#t_tl').value").toString();
 		Assert.assertEquals(outputlanguage, "fr");
@@ -73,7 +72,8 @@ public class Translate_page
 		select_input_language();		// Input text language.
 		select_output_language();		// Output text language.
 		textarea = driver.findElement(By.xpath("(//textarea)[1]"));
-		js.executeScript("arguments[0].value = 'Hello Human'", textarea);	
+//		js.executeScript("arguments[0].value = 'Hello Human'", textarea);
+		textarea.sendKeys("Hello Human");
 		
 		Thread.sleep(5000);
 		
@@ -99,7 +99,7 @@ public class Translate_page
 		
 		//Gender is changed
 		boolean_condition = driver.findElement(By.xpath("//*[@id='t_genradio_M_0']")).isEnabled();
-		Assert.assertTrue(boolean_condition, " The gender of the Input voice is changed to 'Male'");
+		Assert.assertTrue(boolean_condition);
 		System.out.println("	The gender of the Input voice is changed to 'Male");
 		
 		//Pronunciation is changed
@@ -127,12 +127,12 @@ public class Translate_page
 	
 	
 	// SWITCH TAB
-	public void switchtab()		// Assert error
+	public void switchtab() throws InterruptedException		// Assert error
 	{
 		switchtab = driver.findElement(By.xpath("//*[@id='t_revIcon']"));
 		js.executeScript("arguments[0].click();", switchtab);
-		
-		//Assert.assertTrue(js.executeScript("return document.querySelector('#t_tl').value").equals("fr"));
+		Assert.assertTrue(js.executeScript("return document.querySelector('#t_sl').value").equals("fr"));
+		System.out.println("	The input and output language and text has been interchanged.");
 	}
 	
 	public void sound() throws InterruptedException		// ERROR - click not working
@@ -143,38 +143,45 @@ public class Translate_page
 		Thread.sleep(500);
 		RemoteWebElement soundclick_element = (RemoteWebElement) js.executeScript("return document.querySelector('#t_tarplaycIcon.audio.audiofocus')");
 		Assert.assertTrue(soundclick_element.isDisplayed());
+		System.out.println("	The sound button has been clicked.");
 	}
 	
 	public void copy_output() throws InterruptedException
 	{
-		webelement = driver.findElement(By.xpath("//*[@id='t_copyIcon']"));
-		js.executeScript("arguments[0].click();", webelement);
+		Thread.sleep(1000);
+		driver.findElement(By.id("t_copyIcon")).click();
+		
+		// Assert
+		copytext = js.executeScript("return document.getElementById('copy_result').innerText").toString();	
+		Assert.assertEquals(copytext, "Copied!");
+		System.out.println("	The output has been copied");
 	}
 	
 	public void share_outptut() throws InterruptedException
 	{
-		webelement = driver.findElement(By.xpath("//*[@class='actIconSvg actShareSvgIcon']"));
-		js.executeScript("arguments[0].click();", webelement);
+		sharebutton = driver.findElement(By.xpath("//*[@class='actIconSvg actShareSvgIcon']"));
+		js.executeScript("arguments[0].click();", sharebutton);
+		String share = driver.findElement(By.className("shareactionexp")).getAttribute("aria-expanded");
+		Assert.assertEquals(share,"true");
+		System.out.println("	Share button is working properly");
 	}
 	
 	public void clear_text() throws InterruptedException		// Assert error
 	{
 		cleartext = driver.findElement(By.xpath("//*[@id='t_edc']"));
 		js.executeScript("arguments[0].click();", cleartext);
-		//boolean_condition = driver.findElement(By.xpath("//textarea[@placeholder='Enter text or webpage URL here']")).isDisplayed();
-		//System.out.println("Hello "+boolean_condition);
+		Assert.assertEquals(inputtext = js.executeScript("return document.getElementById('t_sv').value").toString(),"");
+		System.out.println("	The text has been cleared");
 	}
 	
 	public void wrong_language_input() throws InterruptedException 		// Not giving Suggestion
 	{
-		select_input_language();
-		select_output_language();
+		js.executeScript("document.querySelector('#t_sl').value= 'nl'");
+		js.executeScript("document.querySelector('#t_tl').value= 'fr'");
 		textarea = driver.findElement(By.xpath("(//textarea)[1]"));
-		js.executeScript("arguments[0].value = 'Bonjour'", textarea);		// Input Text
+		js.executeScript("arguments[0].value = 'hello'", textarea);		// Input Text
 		Thread.sleep(100);
-		suggestion = driver.findElement(By.xpath("  //*[@id='t_asc']"));
-		boolean_condition = suggestion.isDisplayed();
-		System.out.println("suugestion "+boolean_condition);
+		webelement = driver.findElement(By.id("t_as"));
 	}
 	
 	
