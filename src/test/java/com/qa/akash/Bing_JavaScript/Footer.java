@@ -27,6 +27,7 @@ public class Footer
 	WebElement help;
 	WebElement feedback;
 	WebElement suggestion;
+	String demo;
 	
 	public Footer(WebDriver driver)
 	{
